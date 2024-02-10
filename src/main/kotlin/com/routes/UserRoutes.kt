@@ -1,10 +1,7 @@
 package com.routes
 
 import com.auth.JWTService
-import com.data.model.SimpleResponse
-import com.data.model.User
-import com.data.model.UserLoginRequest
-import com.data.model.UserRegisterRequest
+import com.data.model.*
 import com.repository.Repository
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -48,13 +45,18 @@ fun Route.userRoutes(
                         registerRequest.email,
                         hashFunction(registerRequest.password)
                     )
+
+                    val userResponseWithoutPassword = UserResponseWithoutPassword(userName = user.userName, userId = user.userId , userEmail = user.userEmail)
+
+                    val registerResponse = UserRegisterResponse(user = userResponseWithoutPassword, token = jwtService.generateToken(user))
+
                     database.addUser(user)
                     call.respond(
                         HttpStatusCode.OK,
                         SimpleResponse(
                             isSuccessFull = true,
                             message = "User Successfully Registered.",
-                            response = jwtService.generateToken(user)
+                            response = registerResponse
                         )
                     )
                 }
@@ -77,7 +79,9 @@ fun Route.userRoutes(
                     call.respond(HttpStatusCode.BadRequest,  SimpleResponse(false, "Email Doesn't Exist.", response = null))
                 }else{
                     if (user.userPassword == hashFunction(login.password)){
-                        call.respond(HttpStatusCode.OK, SimpleResponse(isSuccessFull = true, "Successfully Login.", response = jwtService.generateToken(user)))
+                        val userResponseWithoutPassword = UserResponseWithoutPassword(userName = user.userName, userId = user.userId , userEmail = user.userEmail)
+                        val loginResponse = UserLoginResponse(user =  userResponseWithoutPassword , token = jwtService.generateToken(user))
+                        call.respond(HttpStatusCode.OK, SimpleResponse(isSuccessFull = true, "Successfully Login.", response = loginResponse))
                     }else{
                         call.respond(HttpStatusCode.BadRequest,  SimpleResponse(false, "Password Doesn't Match.", response = null))
                     }
