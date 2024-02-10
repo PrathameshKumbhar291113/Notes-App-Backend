@@ -2,20 +2,22 @@ package com.plugins
 
 import com.auth.JWTService
 import com.auth.hash
-import com.data.model.User
 import com.repository.Repository
+import com.routes.userRoutes
 import io.ktor.server.application.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
 
-    val db = Repository()
-    val jwtService = JWTService()
-    val hashFunc = { s: String -> hash(s) }
+    routing {
+        val database = Repository()
+        val jwtService = JWTService()
+        val hashFunc = { s: String -> hash(s) }
 
+        userRoutes(database, jwtService, hashFunc)
+    }
 
+    /*
     routing {
         get("/") {
             call.respondText("Welcome To Prathamesh's World!")
@@ -28,12 +30,12 @@ fun Application.configureRouting() {
 
     routing {
         route("/notes") {
-//            route("/create") {
-            post {
-                val body = call.receive<String>()
-                call.respond("$body is successfully created")
+            route("/create") {
+                post {
+                    val body = call.receive<String>()
+                    call.respond("$body is successfully created")
+                }
             }
-//            }
 
             delete {
                 val body = call.receive<String>()
@@ -53,11 +55,31 @@ fun Application.configureRouting() {
             val id = call.request.queryParameters["id"]
             call.respond("$id")
         }
-    }
+    }*/
 
-    routing {
+    /* routing {
         route("/add_user") {
+            post {
+                val parameters = call.receive<Parameters>()
+                var userId : String = ""
+                val userName = parameters["name"]
+                val userEmail = parameters["email"]
+                val userPassword = parameters["password"]
 
+                do {
+                    userId = (100000..999999).random().toString() // Generate a 6-digit random integer
+                } while (db.isUserExists(userId)) // Check if the generated userId already exists
+
+                userName?.let {
+                    userEmail?.let {
+                        userPassword?.let {
+                            val user = User(userId,userName, userEmail, hashFunc(userPassword))
+                            db.addUser(user)
+                            call.respond(jwtService.generateToken(user)+"\n user generated successfully for $user")
+                        }
+                    }
+                }
+            }
         }
 
         route("/get_token") {
@@ -69,12 +91,12 @@ fun Application.configureRouting() {
                 userName?.let {
                     userEmail?.let {
                         userPassword?.let {
-                            val user = User(0,userName, userEmail, hashFunc(userPassword))
+                            val user = User("",userName, userEmail, hashFunc(userPassword))
                             call.respond(jwtService.generateToken(user))
                         }
                     }
                 }
             }
         }
-    }
+    }*/
 }

@@ -9,10 +9,10 @@ import org.jetbrains.exposed.sql.select
 
 class Repository {
 
-    suspend fun addUser(user: User){
-        dbQuery{
+    suspend fun addUser(user: User) {
+        dbQuery {
             UserTable.insert { it ->
-//                it[UserTable.userId] = user.userId
+                it[UserTable.userId] = user.userId
                 it[UserTable.userEmail] = user.userEmail
                 it[UserTable.userName] = user.userName
                 it[UserTable.userPassword] = user.userPassword
@@ -20,14 +20,24 @@ class Repository {
         }
     }
 
-    suspend fun findUserByUserId(userId: Int) = dbQuery{
-        UserTable.select{UserTable.userId.eq(userId)}
+    suspend fun findUserByUserEmail(userEmail: String) = dbQuery {
+        UserTable.select { UserTable.userEmail.eq(userEmail) }
             .map { rowToUser(it) }
             .singleOrNull()
     }
 
-    private fun rowToUser(row:ResultRow?): User?{
-        if (row == null){
+    suspend fun isUserExists(userId: String): Boolean = dbQuery {
+        UserTable.select { UserTable.userId.eq(userId) }
+            .count() > 0
+    }
+
+    suspend fun isUserEmailExists(userEmail: String): Boolean = dbQuery {
+        UserTable.select { UserTable.userEmail.eq(userEmail) }
+            .count() > 0
+    }
+
+    private fun rowToUser(row: ResultRow?): User? {
+        if (row == null) {
             return null
         }
 
