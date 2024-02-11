@@ -2,7 +2,7 @@ package com.data.table
 
 import org.jetbrains.exposed.sql.Table
 
-object UserTable: Table() {
+object UsersTable: Table() {
 
     val userId = varchar("userId", 6)
     val userName = varchar("userName", 512)

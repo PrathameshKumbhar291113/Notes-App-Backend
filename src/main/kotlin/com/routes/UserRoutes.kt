@@ -2,7 +2,7 @@ package com.routes
 
 import com.auth.JWTService
 import com.data.model.*
-import com.repository.Repository
+import com.repository.UserRepository
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -15,7 +15,7 @@ const val REGISTER_REQUEST = "$USERS/register"
 const val LOGIN_REQUEST = "$USERS/login"
 
 fun Route.userRoutes(
-    database : Repository,
+    database : UserRepository,
     jwtService: JWTService,
     hashFunction: (String) -> String
 ){

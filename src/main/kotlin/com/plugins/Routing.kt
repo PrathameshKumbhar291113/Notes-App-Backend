@@ -2,7 +2,9 @@ package com.plugins
 
 import com.auth.JWTService
 import com.auth.hash
-import com.repository.Repository
+import com.repository.NotesRepository
+import com.repository.UserRepository
+import com.routes.notesRoutes
 import com.routes.userRoutes
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
@@ -10,11 +12,13 @@ import io.ktor.server.routing.*
 fun Application.configureRouting() {
 
     routing {
-        val database = Repository()
+        val userDatabase = UserRepository()
+        val notesDatabase = NotesRepository()
         val jwtService = JWTService()
         val hashFunc = { s: String -> hash(s) }
 
-        userRoutes(database, jwtService, hashFunc)
+        userRoutes(userDatabase, jwtService, hashFunc)
+        notesRoutes(notesDatabase, hashFunc)
     }
 
     /*

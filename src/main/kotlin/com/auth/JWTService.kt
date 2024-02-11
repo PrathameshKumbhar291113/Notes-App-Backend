@@ -19,7 +19,7 @@ class JWTService {
         return JWT.create()
             .withSubject("NoteAppAuth")
             .withIssuer(issuer)
-            .withClaim("email", user.userEmail)
+            .withClaim("userId", user.userId)
             .sign(algorithm)
     }
 }
