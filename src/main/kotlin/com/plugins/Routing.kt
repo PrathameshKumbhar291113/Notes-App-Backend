@@ -18,7 +18,7 @@ fun Application.configureRouting() {
         val hashFunc = { s: String -> hash(s) }
 
         userRoutes(userDatabase, jwtService, hashFunc)
-        notesRoutes(notesDatabase, hashFunc)
+        notesRoutes(notesDatabase)
     }
 
     /*

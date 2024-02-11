@@ -21,7 +21,6 @@ const val UPDATE_NOTE = "$NOTES/update-note"
 const val GET_NOTE = "$NOTES/get-note"
 fun Route.notesRoutes(
     database : NotesRepository,
-    hashFunction: (String) -> String
 ){
 
     authenticate(JWT_DECLARATION) {
