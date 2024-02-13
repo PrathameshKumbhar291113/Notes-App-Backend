@@ -14,7 +14,7 @@ application {
 
 ktor {
     fatJar {
-        archiveFileName.set("noteappserver-0.0.1-all.jar")
+        archiveFileName.set("noteappserver-all.jar")
     }
 }
 
