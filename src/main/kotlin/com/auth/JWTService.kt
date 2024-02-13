@@ -7,7 +7,7 @@ import com.data.model.User
 
 class JWTService {
     private val issuer = "notes_server"
-    private val jwtSecret = "notes_app"
+    private val jwtSecret = System.getenv("JWT_SECRET")
     private val algorithm = Algorithm.HMAC512(jwtSecret)
 
     val verifier : JWTVerifier = JWT
