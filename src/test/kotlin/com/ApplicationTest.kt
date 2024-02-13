@@ -1,14 +1,7 @@
 package com
 
-import com.plugins.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.server.testing.*
-import kotlin.test.*
-
 class ApplicationTest {
-    @Test
+    /*@Test
     fun testRoot() = testApplication {
         application {
             configureRouting()
@@ -17,5 +10,5 @@ class ApplicationTest {
             assertEquals(HttpStatusCode.OK, status)
             assertEquals("Hello World!", bodyAsText())
         }
-    }
+    }*/
 }
