@@ -8,8 +8,15 @@ group "com"
 version "0.0.1"
 mainClassName = "com.ApplicationKt"
 
-def isDevelopment = project.ext.has("development")
-applicationDefaultJvmArgs = ["-Dio.ktor.development=$isDevelopment"]
+application {
+    mainClass.set("com.ApplicationKt")
+}
+
+ktor {
+    fatJar {
+        archiveFileName.set("noteappserver-0.0.1-all.jar")
+    }
+}
 
 repositories {
     mavenCentral()

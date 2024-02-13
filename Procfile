@@ -1,1 +1,1 @@
-web: java -jar build/libs/noteappserver-0.0.1.jar
+web: java -jar build/libs/noteappserver-all.jar
